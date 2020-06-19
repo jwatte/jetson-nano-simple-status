@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Exec=/usr/local/bin/jetson-nano-simple-status
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+Name=Jetson Nano Simple Status
+Comment=github.com/jwatte/jetson-nano-simple-status
