@@ -81,19 +81,45 @@ static void range_format(float v, char *buf) {
         fmt = "%.2f";
     } else if (v < 100.0f) {
         fmt = "%.1f";
-    } else if (v < 1e4) {
+    } else if (v < 1e3f) {
+        fmt = "%.0f";
+    } else if (v < 1e4f) {
         fmt = "%.2fk";
         mul = 1e-3;
-    } else if (v < 1e7) {
+    } else if (v < 1e5f) {
+        fmt = "%.1fk";
+        mul = 1e-3;
+    } else if (v < 1e6f) {
+        fmt = "%.0fk";
+        mul = 1e-3;
+    } else if (v < 1e7f) {
         fmt = "%.2fM";
         mul = 1e-6;
-    } else if (v < 1e10) {
+    } else if (v < 1e8f) {
+        fmt = "%.1fM";
+        mul = 1e-6;
+    } else if (v < 1e9f) {
+        fmt = "%.0fM";
+        mul = 1e-6;
+    } else if (v < 1e10f) {
         fmt = "%.2fG";
         mul = 1e-9;
-    } else if (v < 1e13) {
+    } else if (v < 1e11f) {
+        fmt = "%.1fG";
+        mul = 1e-9;
+    } else if (v < 1e12f) {
+        fmt = "%.0fG";
+        mul = 1e-9;
+    } else if (v < 1e13f) {
         fmt = "%.2fT";
         mul = 1e-12;
-    } else if (v < 1e16) {
+    } else if (v < 1e14f) {
+        fmt = "%.1fT";
+        mul = 1e-12;
+    } else if (v < 1e15f) {
+        fmt = "%.0fT";
+        mul = 1e-12;
+    } else if (v < 1e16f) {
         fmt = "%.2fP";
         mul = 1e-15;
     }

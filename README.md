@@ -16,6 +16,18 @@ To build:
 It may ask for sudo password to install libfltk1.3-dev when you build, and to
 copy the binary to /usr/local/bin when you install it.
 
+You may wish to open up the .config/autostart/jetson-nano-simple-status.desktop
+file and add a specific network interface to look for (default is eth0).
+Options you can add include:
+
+    -i --interface         (default "eth0")
+                           which network interface to look for
+    -x --xpos              (default 64)
+                           horizontal coordinate to put the window
+    -y --ypos              (default 32)
+                           vertical coordinate to put the window
+
+
 ![Screenshot](https://watte.net/jetson-nano-simple-status-1.0.png "Screenshot")
 
 [Bigger Screenshot!](screenshot.png "Bigger Screenshot")
