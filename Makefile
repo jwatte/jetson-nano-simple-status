@@ -20,6 +20,6 @@ setup:
 
 obj/%.o:	%.cpp
 	@mkdir -p obj
-	g++ -MMD -c -g -Wall -Werror -o $@ $<
+	g++ -MMD -c -std=c++14 -g -Wall -Werror -o $@ $<
 
 -include $(patsubst %.o,%.d,$(OBJFILES))

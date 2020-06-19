@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <stdint.h>
+#include <atomic>
 
 #include "meter.h"
 
@@ -18,20 +19,25 @@ Fl_Meter *ramMeter;
 Fl_Meter *netMeter;
 Fl_Meter *tempMeter;
 
-pthread_mutex_t mtx = PTHREAD_MUTEX_INITIALIZER;
 pthread_t thread;
+pthread_mutex_t textMutex = PTHREAD_MUTEX_INITIALIZER;
 
 char thetext[10000] = "";
-bool changed = false;
 
-float cpuValue, ramValue, netValue, tempValue;
+std::atomic_bool changed;
+std::atomic<float> cpuValue;
+std::atomic<float> ramValue;
+std::atomic<float> netValue;
+std::atomic<float> tempValue;
 
 static void read_cpu_used() {
     FILE *f = fopen("/proc/loadavg", "r");
     cpuValue = 0;
     if (f != NULL) {
-        fscanf(f, "%f", &cpuValue);
+        float val = 0;
+        fscanf(f, "%f", &val);
         fclose(f);
+        cpuValue = val;
     }
 }
 
@@ -148,25 +154,28 @@ static void read_temp() {
 #define SLEEP_TIME 5
 
 static void *poll_func(void *) {
+    char buf[sizeof(thetext)+1];
     while (true) {
-        pthread_mutex_lock(&mtx);        
         long l = -1;
         FILE *f = popen("/sbin/ip addr show dev eth0", "r");
         if (f != NULL) {
-            l = fread(thetext, 1, sizeof(thetext), f);
-        }
-        if (l < 0) {
-            sprintf(thetext, "error getting IP address: %s", strerror(errno));
-        }
-        if (f != NULL) {
+            l = fread(buf, 1, sizeof(thetext), f);
+            fclose(f);
             f = NULL;
         }
-        changed = true;
+        if (l < 0) {
+            sprintf(buf, "error getting IP address: %s", strerror(errno));
+        } else {
+            pthread_mutex_lock(&textMutex);
+            memcpy(thetext, buf, l);
+            thetext[l] = 0;
+            pthread_mutex_unlock(&textMutex);
+        }
         read_cpu_used();
         read_mem_active();
         read_net_user(SLEEP_TIME);
         read_temp();
-        pthread_mutex_unlock(&mtx);
+        changed = true;
         sleep(SLEEP_TIME);
     }
 }
@@ -181,7 +190,6 @@ static void push(Fl_Meter *m, float v) {
 }
 
 static void check_new_data(void *) {
-    pthread_mutex_lock(&mtx);
     if (changed) {
         changed = false;
         output->value(thetext);
@@ -191,7 +199,6 @@ static void check_new_data(void *) {
         push(netMeter, netValue);
         push(tempMeter, tempValue);
     }
-    pthread_mutex_unlock(&mtx);
     Fl::add_timeout(1.0f, &check_new_data, 0);
 }
 
