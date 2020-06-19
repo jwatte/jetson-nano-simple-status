@@ -16,4 +16,6 @@ To build:
 It may ask for sudo password to install libfltk1.3-dev when you build, and to
 copy the binary to /usr/local/bin when you install it.
 
-[Screenshot!](screenshot.png)
+![Screenshot](https://watte.net/jetson-nano-simple-status-1.0.png "Screenshot")
+
+[Bigger Screenshot!](screenshot.png "Bigger Screenshot")
