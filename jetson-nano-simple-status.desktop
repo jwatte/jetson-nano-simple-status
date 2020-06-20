@@ -7,3 +7,4 @@ NoDisplay=false
 X-GNOME-Autostart-enabled=true
 Name=Jetson Nano Simple Status
 Comment=github.com/jwatte/jetson-nano-simple-status
+Categories=Application
