@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Application
 Exec=/usr/local/bin/jetson-nano-simple-status
+Icon=jetson-nano-simple-status
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true

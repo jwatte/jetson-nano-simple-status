@@ -10,7 +10,7 @@ install:
 	@if [ `whoami` = 'root' ]; then echo "\nPlease don't run install as root; it uses sudo when appropriate.\n"; exit 1; fi
 	mkdir -p "$$HOME/.config/autostart"
 	cp -fp "$(NAME).desktop" "$$HOME/.config/autostart/"
-	sudo cp -fp "$(NAME)" /usr/local/bin/
+	sudo sh -c "cp -fp $(NAME).desktop /usr/share/applications/; cp -fp $(NAME) /usr/local/bin/; cp -fp $(NAME).png /usr/share/icons/hicolor/48x48/apps/"
 
 clean:
 	rm -rf obj "$(NAME)"
