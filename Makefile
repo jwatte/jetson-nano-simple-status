@@ -18,8 +18,10 @@ clean:
 setup:
 	[ -f /usr/lib/aarch64-linux-gnu/libfltk.so.1.3 ] || sudo apt install libfltk1.3-dev
 
-obj/%.o:	%.cpp
+obj/%.o:	%.cpp setup
 	@mkdir -p obj
 	g++ -MMD -c -std=c++14 -g -Wall -Werror -o $@ $<
+
+.PHONY:	setup clean install
 
 -include $(patsubst %.o,%.d,$(OBJFILES))
