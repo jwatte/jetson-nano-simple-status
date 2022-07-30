@@ -16,7 +16,7 @@ clean:
 	rm -rf obj "$(NAME)"
 
 setup:
-	[ -f /usr/lib/aarch64-linux-gnu/libfltk.so.1.3 ] || sudo apt install libfltk1.3-dev
+	[ -f /usr/include/FL/Fl_Widget.H ] || sudo apt install libfltk1.3-dev
 
 obj/%.o:	%.cpp setup
 	@mkdir -p obj
